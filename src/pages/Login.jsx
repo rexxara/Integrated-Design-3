@@ -12,12 +12,12 @@ import ListItem from '@material-ui/core/ListItem';
 
 const styles = {
     root: {
-      width: '100%',
-      maxWidth: 360,
-      margin:'auto'
+        width: '100%',
+        maxWidth: 360,
+        margin: 'auto'
     },
-    listItem:{
-        margin:'auto'
+    listItem: {
+        margin: 'auto'
     },
     card: {
         minWidth: 275,
@@ -36,6 +36,9 @@ const styles = {
 };
 class Login extends React.Component {
 
+    state = {
+        loginDisable: false
+    };
     setlocalStorage = () => {
         const loginState = {
             userId: '001',
@@ -55,16 +58,19 @@ class Login extends React.Component {
     }
 
     login = () => {
+        this.setState({loginDisable:true});
         const nickName = document.getElementById("nickName").value
         const password = document.getElementById("password").value
         login({
-            nickName:nickName,
-            password:password
-        },function(res) {
+            nickName: nickName,
+            password: password
+        }, function (res) {
             console.log(res)
+            this.setState({loginDisable:false});
         })
     }
     render() {
+        const {loginDisable}=this.state;
         const { classes } = this.props;
         return (<div style={{ height: "80vh" }}>
             <AppBar position="static" color="primary">
@@ -101,14 +107,14 @@ class Login extends React.Component {
                     />
                 </ListItem>
 
-                    <Button onClick={this.login} className={classes.listItem} variant="contained" color="secondary" className={classes.button}>
-                        登陆
+                <Button disabled={loginDisable} onClick={this.login} className={classes.listItem} variant="contained" color="secondary" className={classes.button}>
+                    登陆
                     </Button>
             </List>
-            {/* <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
+            <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
             <button onClick={this.getlocalStorage}>getlocalStorage</button>
             <button onClick={this.removelocalStorage}>removelocalStorage</button>
-            <button onClick={this.loginTest}>loginTest</button> */}
+            <button onClick={this.loginTest}>loginTest</button>
         </div>
         );
     }
