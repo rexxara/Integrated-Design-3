@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route,Redirect } from "react-router-dom";
 //components
 import BasicLayOut from './components/basicLayOut';
 import Drawer from './components/drawer';
@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Bill from './pages/Bill';
 import AccountEntries from './pages/AccountEntries';
 import PersonalCenter from './pages/PersonalCenter';
+import Login from './pages/Login';
+
 class App extends Component {
 
   state = {
@@ -20,26 +22,32 @@ class App extends Component {
       drawerOpen: open,
     });
   };
-
   
   render() {
-    return (
-      <Router>
-      <div className="App">
-        <header className="App-header">
+    const loginState=localStorage.getItem('loginState')
+    console.log(loginState)
+      return (
+        <Router>
+          <div className="App">
+          <Route exact path="/" render= {()=><Redirect to="/main/home"/>} />
+          <Route
+          path={'/main'}
+          render={() => { return loginState?<header className="App-header">
           <BasicLayOut openDrawerHandle={this.toggleDrawer}/>
           <Drawer isOpen={this.state.drawerOpen} toggleDrawer={this.toggleDrawer}/>
           <div>
-            <Route exact path="/" component={Home} />
-            <Route path="/账单" component={Bill} />
-            <Route path="/账户条目" component={AccountEntries} />
-            <Route path="/个人中心" component={PersonalCenter} />
+            <Route path="/main/home" component={Home} />
+            <Route path="/main/账单" component={Bill} />
+            <Route path="/main/账户条目" component={AccountEntries} />
+            <Route path="/main/个人中心" component={PersonalCenter} />
           </div>
-        </header>
-      </div>
-      </Router>
-    );
-  }
+          </header>
+            :
+            <Redirect to="/login" />}}/>
+              <Route exact path="/login" component={Login} />
+        </div>
+        </Router>
+      );
+    }
 }
-
 export default App;

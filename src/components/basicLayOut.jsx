@@ -88,12 +88,16 @@ class PrimarySearchAppBar extends React.Component {
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
   };
-
+  quitLogin = () => {
+    this.handleMenuClose()
+    const res=localStorage.removeItem('loginState');
+    console.log(res)
+    window.location.href='/login'
+  };
   render() {
     const { anchorEl} = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -102,8 +106,8 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}><Link to='/个人中心'>个人中心</Link></MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>退出登录</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}><Link to='/main/个人中心'>个人中心</Link></MenuItem>
+        <MenuItem onClick={this.quitLogin}>退出登录</MenuItem>
       </Menu>
     );
 
@@ -114,8 +118,8 @@ class PrimarySearchAppBar extends React.Component {
             <IconButton onClick={this.props.openDrawerHandle(true)}  className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
-            <Link to='/'><Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              家庭财务管理系统
+            <Link to='/main/home'><Typography className={classes.title} variant="h6" color="inherit" noWrap>
+              蘸狼家庭财务管理系统
             </Typography>
             </Link>
             <div className={classes.grow} />

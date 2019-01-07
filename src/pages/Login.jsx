@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-class Home extends React.Component {
+class Login extends React.Component {
 
     setlocalStorage=()=>{
         const loginState={
@@ -8,6 +8,7 @@ class Home extends React.Component {
             isAdmin:true
         }
         localStorage.setItem('loginState', JSON.stringify(loginState));
+        window.location.href='/'
         console.log('succe')
     }
     getlocalStorage=()=>{
@@ -21,8 +22,7 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <h2>homepage</h2>
-                <Link to='/login'>gotoLogin</Link>
+                <Link to='/login'>Login</Link>
                 <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
                 <button onClick={this.getlocalStorage}>getlocalStorage</button>
                 <button onClick={this.removelocalStorage}>removelocalStorage</button>
@@ -31,4 +31,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default Login;

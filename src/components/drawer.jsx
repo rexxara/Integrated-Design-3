@@ -28,7 +28,7 @@ class TemporaryDrawer extends React.PureComponent {
       <div className={classes.list}>
         <List>
           {['账单', '账户条目', '个人中心'].map((text, index) => (
-            <Link to={text} key={text}>
+            <Link to={`/main/${text}`} key={text}>
             <ListItem button >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
