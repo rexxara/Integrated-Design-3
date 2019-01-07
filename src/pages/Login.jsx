@@ -1,34 +1,117 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { login } from '../api'
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
+const styles = {
+    root: {
+      width: '100%',
+      maxWidth: 360,
+      margin:'auto'
+    },
+    listItem:{
+        margin:'auto'
+    },
+    card: {
+        minWidth: 275,
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    }
+};
 class Login extends React.Component {
 
-    setlocalStorage=()=>{
-        const loginState={
-            userId:'001',
-            isAdmin:true
+    setlocalStorage = () => {
+        const loginState = {
+            userId: '001',
+            isAdmin: true
         }
         localStorage.setItem('loginState', JSON.stringify(loginState));
-        window.location.href='/'
+        window.location.href = '/'
         console.log('succe')
     }
-    getlocalStorage=()=>{
-        const res=localStorage.getItem('loginState');
+    getlocalStorage = () => {
+        const res = localStorage.getItem('loginState');
         console.log(res)
     }
-    removelocalStorage=()=>{
-        const res=localStorage.removeItem('loginState');
+    removelocalStorage = () => {
+        const res = localStorage.removeItem('loginState');
         console.log(res)
+    }
+
+    login = () => {
+        const nickName = document.getElementById("nickName").value
+        const password = document.getElementById("password").value
+        login({
+            nickName:nickName,
+            password:password
+        },function(res) {
+            console.log(res)
+        })
     }
     render() {
-        return (
-            <div>
-                <Link to='/login'>Login</Link>
-                <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
-                <button onClick={this.getlocalStorage}>getlocalStorage</button>
-                <button onClick={this.removelocalStorage}>removelocalStorage</button>
-            </div>
+        const { classes } = this.props;
+        return (<div style={{ height: "80vh" }}>
+            <AppBar position="static" color="primary">
+                <Toolbar>
+                    <Typography variant="h6" color="inherit">
+                        登陆
+                </Typography>
+                </Toolbar>
+            </AppBar>
+            <h2>登陆</h2>
+            <List className={classes.root}>
+                <ListItem className={classes.listItem}>
+                    <TextField
+                        required
+                        id="nickName"
+                        label="账号"
+                        defaultValue=""
+                        className={classes.listItem}
+                        margin="normal"
+                        variant="filled"
+                    />
+                </ListItem>
+
+                <ListItem className={classes.listItem}>
+                    <TextField
+                        required
+                        id="password"
+                        label="密码"
+                        defaultValue=""
+                        className={classes.listItem}
+                        type="password"
+                        margin="normal"
+                        variant="filled"
+                    />
+                </ListItem>
+
+                    <Button onClick={this.login} className={classes.listItem} variant="contained" color="secondary" className={classes.button}>
+                        登陆
+                    </Button>
+            </List>
+            {/* <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
+            <button onClick={this.getlocalStorage}>getlocalStorage</button>
+            <button onClick={this.removelocalStorage}>removelocalStorage</button>
+            <button onClick={this.loginTest}>loginTest</button> */}
+        </div>
         );
     }
 }
 
-export default Login;
+export default withStyles(styles)(Login);
