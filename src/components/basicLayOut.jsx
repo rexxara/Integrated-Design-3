@@ -98,6 +98,13 @@ class PrimarySearchAppBar extends React.Component {
     const { anchorEl} = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
+    let loginState=localStorage.getItem('loginState');
+    try {
+      loginState=JSON.parse(loginState)
+    } catch (error) {
+      
+    }
+    console.log(loginState)
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -124,6 +131,7 @@ class PrimarySearchAppBar extends React.Component {
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+            {loginState&&loginState.nickName}
               <IconButton
                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                 aria-haspopup="true"

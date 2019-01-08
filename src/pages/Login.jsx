@@ -6,10 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-
+import { notification } from 'antd';
 const styles = {
     root: {
         width: '100%',
@@ -58,19 +57,46 @@ class Login extends React.Component {
     }
 
     login = () => {
-        this.setState({loginDisable:true});
+        this.setState({ loginDisable: true });
         const nickName = document.getElementById("nickName").value
         const password = document.getElementById("password").value
         login({
             nickName: nickName,
             password: password
-        }, function (res) {
+        }, (res)=>{
             console.log(res)
-            this.setState({loginDisable:false});
+            const {data}=res
+            this.setState({ loginDisable: false });
+            if(data.code===0){
+                this.loginSuccess(data)
+            }else{
+                this.loginFailed(data)
+            }
         })
     }
+    loginSuccess=(data)=>{
+        const nickName = document.getElementById("nickName").value
+        const loginState={
+            nickName:nickName,
+            isAdmin:data.data
+        }
+        localStorage.setItem('loginState', JSON.stringify(loginState));
+        window.location.href = '/'
+        const res = localStorage.getItem('loginState');
+        console.log(res)
+    }
+    loginFailed=(data)=>{
+        console.log(data)
+        notification.error({
+            message: '登陆失败',
+            description: data.msg,
+            onClick: () => {
+              console.log('Notification Clicked!');
+            },
+          });
+    }
     render() {
-        const {loginDisable}=this.state;
+        const { loginDisable } = this.state;
         const { classes } = this.props;
         return (<div style={{ height: "80vh" }}>
             <AppBar position="static" color="primary">
@@ -94,7 +120,7 @@ class Login extends React.Component {
                     />
                 </ListItem>
 
-                <ListItem className={classes.listItem}>
+                <ListItem >
                     <TextField
                         required
                         id="password"
@@ -114,7 +140,7 @@ class Login extends React.Component {
             <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
             <button onClick={this.getlocalStorage}>getlocalStorage</button>
             <button onClick={this.removelocalStorage}>removelocalStorage</button>
-            <button onClick={this.loginTest}>loginTest</button>
+            <button onClick={this.loginFailed}>loginFailed</button>
         </div>
         );
     }
