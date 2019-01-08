@@ -60,7 +60,16 @@ export const getAccountById = function (id,cb) {
         });
 }
 
-//unusedAPI
+export const adminUserAll = function (page, cb) {
+    axios.get(`${server}/admin/user/all?page=${page}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+//unusedAPI//////////////////////////////////////////////////////////////////////
 //根据itemID查找item详情
 export const getItemDetail = function (id, cb) {
     axios.get(`${server}/item?id=${id}`)
@@ -71,6 +80,8 @@ export const getItemDetail = function (id, cb) {
             cb(error)
         });
 }
+
+
 
 //占坑
 //items
@@ -104,10 +115,6 @@ export const chartAccount = function (params) {
 }
 //冷锋接口
 
-
-export const adminUserAll = function (params) {
-
-}
 
 export const adminUserAdd = function (params) {
 

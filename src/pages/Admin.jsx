@@ -1,5 +1,5 @@
 import React from 'react';
-import { getItemBypage } from '../api'
+import { adminUserAll } from '../api'
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,7 +25,7 @@ const styles = theme => ({
     }
 });
 
-class AccountEntries extends React.Component {
+class Admin extends React.Component {
     state = {
         page: 1,
         rows:[]
@@ -34,7 +34,7 @@ class AccountEntries extends React.Component {
         this.getData(1)
     }
     getData(page){
-        getItemBypage(page, (data) => {
+        adminUserAll(page, (data) => {
             let res = data.data
             this.setState({
                 rows: res.data
@@ -55,20 +55,21 @@ class AccountEntries extends React.Component {
     render() {
         const { classes } = this.props;
         const {page,rows}=this.state;
+        console.log(rows)
         return (
             <div>
-                <div>账户条目</div>
+                <div>Admin用户管理</div>
                 <br />
 
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="right">条目ID</TableCell>
-                                <TableCell align="right">收入/支出</TableCell>
-                                <TableCell align="right">发起者</TableCell>
-                                <TableCell align="right">名称</TableCell>
-                                <TableCell>备注</TableCell>
+                                <TableCell align="right">用户ID</TableCell>
+                                <TableCell align="right">昵称（登录名）</TableCell>
+                                <TableCell align="right">真名</TableCell>
+                                <TableCell align="right">密码</TableCell>
+                                <TableCell>角色</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -76,10 +77,10 @@ class AccountEntries extends React.Component {
                                 return (
                                     <TableRow key={row.id}>
                                         <TableCell align="right">{row.id}</TableCell>
-                                        <TableCell align="right">{row.type==='1'?'支出':'收入'}</TableCell>
-                                        <TableCell align="right">{row.owner}</TableCell>
-                                        <TableCell align="right">{row.name}</TableCell>
-                                        <TableCell align="right">{row.description}</TableCell>
+                                        <TableCell align="right">{row.nickName}</TableCell>
+                                        <TableCell align="right">{row.trueName}</TableCell>
+                                        <TableCell align="right">{row.password}</TableCell>
+                                        <TableCell align="right">{row.role===1?"管理员":"用户"}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -97,8 +98,7 @@ class AccountEntries extends React.Component {
         );
     }
 }
-
-AccountEntries.propTypes = {
+Admin.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(AccountEntries);
+export default withStyles(styles)(Admin);

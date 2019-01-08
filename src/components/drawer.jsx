@@ -22,12 +22,13 @@ const styles = {
 class TemporaryDrawer extends React.PureComponent {
 
   render() {
-    const { classes } = this.props;
-
+    const { classes,loginState } = this.props;
+    console.log(loginState)
+    const menuList=loginState.isAdmin?['账单', '账户条目', '个人中心','Admin用户管理']:['账单', '账户条目', '个人中心']
     const sideList = (
       <div className={classes.list}>
         <List>
-          {['账单', '账户条目', '个人中心'].map((text, index) => (
+          {menuList.map((text, index) => (
             <Link to={`/main/${text}`} key={text}>
             <ListItem button >
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
