@@ -63,37 +63,36 @@ class Login extends React.Component {
         login({
             nickName: nickName,
             password: password
-        }, (res)=>{
+        }, (res) => {
             console.log(res)
-            const {data}=res
+            const { data } = res
             this.setState({ loginDisable: false });
-            if(data.code===0){
+            if (data.code === 0) {
                 this.loginSuccess(data)
-            }else{
+            } else {
                 this.loginFailed(data)
             }
         })
     }
-    loginSuccess=(data)=>{
-        const nickName = document.getElementById("nickName").value
-        const loginState={
-            nickName:nickName,
-            isAdmin:data.data
+    loginSuccess = (data) => {
+        const res=data.data
+        const loginState = {
+            isAdmin: res.role,
+            id: res.id,
+            nickName: res.nickName
         }
         localStorage.setItem('loginState', JSON.stringify(loginState));
         window.location.href = '/'
-        const res = localStorage.getItem('loginState');
-        console.log(res)
     }
-    loginFailed=(data)=>{
+    loginFailed = (data) => {
         console.log(data)
         notification.error({
             message: '登陆失败',
             description: data.msg,
             onClick: () => {
-              console.log('Notification Clicked!');
+                console.log('Notification Clicked!');
             },
-          });
+        });
     }
     render() {
         const { loginDisable } = this.state;

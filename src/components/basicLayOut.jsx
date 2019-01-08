@@ -90,20 +90,14 @@ class PrimarySearchAppBar extends React.Component {
   };
   quitLogin = () => {
     this.handleMenuClose()
-    const res=localStorage.removeItem('loginState');
+    const res = localStorage.removeItem('loginState');
     console.log(res)
-    window.location.href='/login'
+    window.location.href = '/login'
   };
   render() {
-    const { anchorEl} = this.state;
-    const { classes } = this.props;
+    const { anchorEl } = this.state;
+    const { classes, loginState } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-    let loginState=localStorage.getItem('loginState');
-    try {
-      loginState=JSON.parse(loginState)
-    } catch (error) {
-      
-    }
     console.log(loginState)
     const renderMenu = (
       <Menu
@@ -122,7 +116,7 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton onClick={this.props.openDrawerHandle(true)}  className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            <IconButton onClick={this.props.openDrawerHandle(true)} className={classes.menuButton} color="inherit" aria-label="Open drawer">
               <MenuIcon />
             </IconButton>
             <Link to='/main/home'><Typography className={classes.title} variant="h6" color="inherit" noWrap>
@@ -131,7 +125,7 @@ class PrimarySearchAppBar extends React.Component {
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-            {loginState&&loginState.nickName}
+              {loginState && loginState.nickName}
               <IconButton
                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                 aria-haspopup="true"

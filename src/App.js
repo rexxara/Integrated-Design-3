@@ -24,8 +24,12 @@ class App extends Component {
   };
   
   render() {
-    const loginState=localStorage.getItem('loginState')
-    console.log(loginState)
+    let loginState=localStorage.getItem('loginState')
+    try {
+      loginState=JSON.parse(loginState)
+    } catch (error) {
+      
+    }
       return (
         <Router>
           <div className="App">
@@ -33,11 +37,11 @@ class App extends Component {
           <Route
           path={'/main'}
           render={() => { return loginState?<header className="App-header">
-          <BasicLayOut openDrawerHandle={this.toggleDrawer}/>
+          <BasicLayOut loginState={loginState} openDrawerHandle={this.toggleDrawer}/>
           <Drawer isOpen={this.state.drawerOpen} toggleDrawer={this.toggleDrawer}/>
           <div>
             <Route path="/main/home" component={Home} />
-            <Route path="/main/账单" component={Bill} />
+            <Route path="/main/账单"render= {()=><Bill loginState={loginState}/>} />
             <Route path="/main/账户条目" component={AccountEntries} />
             <Route path="/main/个人中心" component={PersonalCenter} />
           </div>

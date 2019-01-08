@@ -8,6 +8,7 @@ export const login = function (data, cb) {
         "password": password
     })
         .then(function (response) {
+            console.log(response)
             cb(response)
         })
         .catch(function (error) {
@@ -33,4 +34,91 @@ export const updateUserProfile = function (data, cb) {
         .catch(function (error) {
             cb(error)
         });
+}
+
+
+//根据page数查找items
+export const getItemBypage = function (page, cb) {
+    axios.get(`${server}/item/all?page=${page}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+
+
+export const getAccountById = function (id,cb) {
+    //但是战狼看穿一切
+    axios.get(`${server}/account/all?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+
+//unusedAPI
+//根据itemID查找item详情
+export const getItemDetail = function (id, cb) {
+    axios.get(`${server}/item?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+
+//占坑
+//items
+export const addItem = function (params) {
+
+}
+
+export const updateItem = function (params) {
+
+}
+
+export const deleteItem = function (params) {
+
+}
+//accounts
+
+export const getAccountDetail = function (params) {
+    'Account'
+}
+
+export const addAccount = function (params) {
+
+}
+
+export const deleteAccount = function (params) {
+
+}
+
+export const chartAccount = function (params) {
+    'chart'
+}
+//冷锋接口
+
+
+export const adminUserAll = function (params) {
+
+}
+
+export const adminUserAdd = function (params) {
+
+}
+
+export const adminUserDelete = function (params) {
+
+}
+export const adminUser = function (params) {
+
+}
+export const adminUpdate = function (params) {
+
 }
