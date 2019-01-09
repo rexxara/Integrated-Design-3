@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import { adminUserAdd, adminUser, adminUpdate } from '../api'
+import { getItemDetail,addItem,updateItem } from '../api'
 import { notification } from 'antd';
 
 const styles = theme => ({
@@ -35,27 +35,36 @@ const styles = theme => ({
 });
 
 
-class AdminEdit extends React.Component {
+class ItemEdit extends React.Component {
 
     state = {
-        nickName: '',
-        trueName: '',
-        password: '',
-        rePassword: '',
-        role: 0
+        name: 'data.name',
+        owner: 'data.owner',
+        type: 1,
+        description:'data.description'
     };
     componentDidMount() {
         const { match: { params } } = this.props
         if (params.id !== 'new') {
-            adminUser(params.id, (res) => {
-                const { data: { data } } = res
+            getItemDetail(params.id, (res) => {
+                console.log(res)
+                const { data: { code,data,msg } } = res
                 console.log(data)
+                if(code===67673){
+                    notification.error({
+                        message: '不能操作',
+                        description: msg,
+                    });
+                    this.props.history.goBack()
+                }else{
                 this.setState({
-                    nickName: data.nickName,
-                    trueName: data.trueName,
-                    password: data.password,
-                    role: data.role,
+                    id: data.id,
+                    name: data.name,
+                    owner: data.owner,
+                    type: data.type,
+                    description:data.description||'无'
                 })
+                }
             })
         } else {
             console.log('new')
@@ -70,23 +79,17 @@ class AdminEdit extends React.Component {
         this.props.history.goBack()
     }
     createUser = () => {
-        const { nickName, role, trueName, password, rePassword } = this.state
+        console.log(this.state)
+        const { name, owner, type, description } = this.state
         const { match: { params: { id } } } = this.props
-        if (password !== rePassword) {
-            notification.error({
-                message: '两次输入密码不一致',
-                description: '两次输入密码不一致',
-            });
-            return 0
-        }
         if (id === 'new') {
             const data = {
-                role: role,
-                trueName: trueName,
-                nickName: nickName,
-                password: rePassword
+                name: name,
+                owner: owner,
+                type: type,
+                description: description
             }
-            adminUserAdd(data, (res) => {
+            addItem(data, (res) => {
                 const { data } = res
                 if (data.code === 0) {
                     notification.success({
@@ -98,13 +101,13 @@ class AdminEdit extends React.Component {
             })
         } else {
             const data = {
-                role: role,
-                trueName: trueName,
-                nickName: nickName,
-                password: rePassword,
+                name: name,
+                owner: owner,
+                type: type,
+                description: description,
                 id: id
             }
-            adminUpdate(data, (res) => {
+            updateItem(data, (res) => {
                 const { data } = res
                 if (data.code === 0) {
                     notification.success({
@@ -122,28 +125,28 @@ class AdminEdit extends React.Component {
         return (
             <div>
                 <br />
-                <h2 className={classes.header} >{id === 'new' ? '新建' : '编辑'}用户</h2>
+                <h2 className={classes.header} >{id === 'new' ? '新建' : '编辑'}账户条目</h2>
                 <br />
                 <form noValidate autoComplete="off">
                     <List component="nav" className={classes.root}>
                         <ListItem >
                             <TextField
                                 required
-                                id="nickName"
-                                label="昵称"
+                                id="name"
+                                label="name"
                                 className={classes.textField}
-                                value={this.state.nickName}
-                                onChange={this.handleChange('nickName')}
+                                value={this.state.name}
+                                onChange={this.handleChange('name')}
                                 margin="normal"
                                 variant="outlined"
                             />
                             <TextField
                                 required
-                                id="trueName"
-                                label="真实姓名"
+                                id="owner"
+                                label="owner"
                                 className={classes.textField}
-                                value={this.state.trueName}
-                                onChange={this.handleChange('trueName')}
+                                value={this.state.owner}
+                                onChange={this.handleChange('owner')}
                                 margin="normal"
                                 variant="outlined"
                             />
@@ -151,46 +154,31 @@ class AdminEdit extends React.Component {
                         <ListItem >
                             <TextField
                                 required
-                                id="password"
-                                label="密码"
-                                type="password"
+                                id="description"
+                                label="description"
                                 className={classes.textField}
-                                value={this.state.password}
-                                onChange={this.handleChange('password')}
+                                value={this.state.description}
+                                onChange={this.handleChange('description')}
                                 margin="normal"
                                 variant="outlined"
                             />
                             <TextField
                                 required
-                                id="rePassword"
-                                label="重新输入密码"
-                                type="password"
-                                className={classes.textField}
-                                value={this.state.rePassword}
-                                onChange={this.handleChange('rePassword')}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                        </ListItem>
-                        <ListItem>
-
-                            <TextField
-                                required
-                                id="role"
+                                id="type"
                                 select
-                                label="role"
+                                label="type"
                                 className={classes.textField}
-                                value={this.state.role}
-                                onChange={this.handleChange('role')}
+                                value={this.state.type}
+                                onChange={this.handleChange('type')}
                                 SelectProps={{
                                     MenuProps: {
                                         className: classes.menu,
                                     },
                                 }}
-                                helperText="配置权限"
+                                helperText="收入或支出"
                                 margin="normal"
                             >
-                                {[{ label: '管理员', value: 1 }, { label: '用户', value: 0 }].map(option => (
+                                {[{ label: '支出', value: 1 }, { label: '收入', value: 0 }].map(option => (
                                     <MenuItem key={option.value} value={option.value}>
                                         {option.label}
                                     </MenuItem>
@@ -204,7 +192,7 @@ class AdminEdit extends React.Component {
                         &nbsp;
                         &nbsp;
                     <Button variant="contained" onClick={this.createUser} color="secondary" autoFocus>
-                    确认
+                            确认
             </Button>
                     </List>
                 </form>
@@ -213,8 +201,8 @@ class AdminEdit extends React.Component {
     }
 }
 
-AdminEdit.propTypes = {
+ItemEdit.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminEdit);
+export default withStyles(styles)(ItemEdit);

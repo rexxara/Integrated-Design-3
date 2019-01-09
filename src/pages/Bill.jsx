@@ -53,8 +53,8 @@ class Home extends React.Component {
                                 <TableCell align="right">花费</TableCell>
                                 <TableCell align="right">描述</TableCell>
                                 <TableCell align="right">日期</TableCell>
-                                <TableCell>账单条目ID</TableCell>
-                                <TableCell>用户ID</TableCell>
+                                {/* <TableCell>账单条目ID</TableCell>
+                                <TableCell>用户ID</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -65,8 +65,8 @@ class Home extends React.Component {
                                         <TableCell align="right">{row.money}</TableCell>
                                         <TableCell align="right">{row.description}</TableCell>
                                         <TableCell align="right">{row.date}</TableCell>
-                                        <TableCell align="right">{row.itemId}</TableCell>
-                                        <TableCell align="right">{row.userId}</TableCell>
+                                        {/* <TableCell align="right">{row.itemId}</TableCell>
+                                        <TableCell align="right">{row.userId}</TableCell> */}
                                     </TableRow>
                                 );
                             })}

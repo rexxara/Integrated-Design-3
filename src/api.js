@@ -49,7 +49,7 @@ export const getItemBypage = function (page, cb) {
 }
 
 
-export const getAccountById = function (id,cb) {
+export const getAccountById = function (id, cb) {
     //但是战狼看穿一切
     axios.get(`${server}/account/all?id=${id}`)
         .then(function (response) {
@@ -71,7 +71,7 @@ export const adminUserAll = function (page, cb) {
 }
 
 
-export const adminUserDelete = function (id,cb) {
+export const adminUserDelete = function (id, cb) {
     axios.delete(`${server}/admin/user/delete?id=${id}`)
         .then(function (response) {
             cb(response)
@@ -90,7 +90,7 @@ export const adminUserAdd = function (data, cb) {
             cb(error)
         });
 }
-export const adminUser = function (id,cb) {
+export const adminUser = function (id, cb) {
     axios.get(`${server}/admin/user?id=${id}`)
         .then(function (response) {
             cb(response)
@@ -99,7 +99,7 @@ export const adminUser = function (id,cb) {
             cb(error)
         });
 }
-export const adminUpdate  = function (data, cb) {
+export const adminUpdate = function (data, cb) {
     axios.post(`${server}/admin/user/update`, data)
         .then(function (response) {
             cb(response)
@@ -118,21 +118,36 @@ export const getItemDetail = function (id, cb) {
         .catch(function (error) {
             cb(error)
         });
+}//有个几把用啊这个接口你妈的list里不久有全部的detail了吗干嘛还要这玩意卧槽
+
+export const addItem = function (data, cb) {
+    axios.post(`${server}/item/add`, data)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
 
-
-//占坑
-//items
-export const addItem = function (params) {
-
+export const updateItem = function (data, cb) {
+    axios.post(`${server}/item/update`, data)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
 
-export const updateItem = function (params) {
-
-}
-
-export const deleteItem = function (params) {
-
+export const deleteItem = function (id, cb) {
+    axios.delete(`${server}/item/delete?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
 //accounts
 

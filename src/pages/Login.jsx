@@ -98,6 +98,7 @@ class Login extends React.Component {
         const { loginDisable } = this.state;
         const { classes } = this.props;
         return (<div style={{ height: "80vh" }}>
+        <br/>
             <AppBar position="static" color="primary">
                 <Toolbar>
                     <Typography variant="h6" color="inherit">
@@ -136,10 +137,10 @@ class Login extends React.Component {
                     登陆
                     </Button>
             </List>
-            <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
+            {/* <button onClick={this.setlocalStorage}>SetLoginLocalStorage</button>
             <button onClick={this.getlocalStorage}>getlocalStorage</button>
             <button onClick={this.removelocalStorage}>removelocalStorage</button>
-            <button onClick={this.loginFailed}>loginFailed</button>
+            <button onClick={this.loginFailed}>loginFailed</button> */}
         </div>
         );
     }

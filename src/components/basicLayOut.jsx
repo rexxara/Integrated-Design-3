@@ -98,7 +98,6 @@ class PrimarySearchAppBar extends React.Component {
     const { anchorEl } = this.state;
     const { classes, loginState } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-    console.log(loginState)
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
