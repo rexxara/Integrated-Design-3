@@ -13,6 +13,8 @@ import PersonalCenter from './pages/PersonalCenter';
 import Login from './pages/Login';
 import AdminEdit from './pages/AdminEdit';
 import ItemEdit from './pages/ItemEdit';
+import AccountEdit from './pages/AccountEdit';
+
 class App extends Component {
 
   state = {
@@ -49,6 +51,7 @@ class App extends Component {
             <Route path="/main/Admin用户管理" component={Admin} />
             <Route path={`/main/admin/Edit/:id`} component={AdminEdit} />
             <Route path={`/main/item/Edit/:id`} component={ItemEdit} />
+            <Route path={`/main/account/Edit/:id`} component={AccountEdit} />
             
           </div>
           </header>

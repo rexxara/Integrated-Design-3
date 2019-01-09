@@ -38,12 +38,21 @@ const styles = theme => ({
 class ItemEdit extends React.Component {
 
     state = {
-        name: 'data.name',
-        owner: 'data.owner',
+        name: '',
+        owner: 1,
         type: 1,
-        description:'data.description'
+        description:'无'
     };
+    componentWillMount(){
+    }
     componentDidMount() {
+        let loginState=localStorage.getItem('loginState')
+        try {
+          loginState=JSON.parse(loginState)
+        } catch (error) {
+          
+        }
+        console.log(loginState)
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             getItemDetail(params.id, (res) => {
@@ -68,6 +77,9 @@ class ItemEdit extends React.Component {
             })
         } else {
             console.log('new')
+            this.setState({
+                owner: loginState.id,
+            })
         }
     }
     handleChange = name => event => {
@@ -133,29 +145,29 @@ class ItemEdit extends React.Component {
                             <TextField
                                 required
                                 id="name"
-                                label="name"
+                                label="条目名称"
                                 className={classes.textField}
                                 value={this.state.name}
                                 onChange={this.handleChange('name')}
                                 margin="normal"
                                 variant="outlined"
                             />
-                            <TextField
+                            {/* <TextField
                                 required
                                 id="owner"
-                                label="owner"
+                                label="创建者ID"
                                 className={classes.textField}
                                 value={this.state.owner}
                                 onChange={this.handleChange('owner')}
                                 margin="normal"
                                 variant="outlined"
-                            />
-                        </ListItem>
-                        <ListItem >
+                            /> */}
+                        {/* </ListItem>
+                        <ListItem > */}
                             <TextField
                                 required
                                 id="description"
-                                label="description"
+                                label="说明"
                                 className={classes.textField}
                                 value={this.state.description}
                                 onChange={this.handleChange('description')}
@@ -166,7 +178,7 @@ class ItemEdit extends React.Component {
                                 required
                                 id="type"
                                 select
-                                label="type"
+                                label="收/支"
                                 className={classes.textField}
                                 value={this.state.type}
                                 onChange={this.handleChange('type')}

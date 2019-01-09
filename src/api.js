@@ -49,16 +49,7 @@ export const getItemBypage = function (page, cb) {
 }
 
 
-export const getAccountById = function (id, cb) {
-    //但是战狼看穿一切
-    axios.get(`${server}/account/all?id=${id}`)
-        .then(function (response) {
-            cb(response)
-        })
-        .catch(function (error) {
-            cb(error)
-        });
-}
+
 
 export const adminUserAll = function (page, cb) {
     axios.get(`${server}/admin/user/all?page=${page}`)
@@ -108,7 +99,6 @@ export const adminUpdate = function (data, cb) {
             cb(error)
         });
 }
-//unusedAPI//////////////////////////////////////////////////////////////////////
 //根据itemID查找item详情
 export const getItemDetail = function (id, cb) {
     axios.get(`${server}/item?id=${id}`)
@@ -118,7 +108,7 @@ export const getItemDetail = function (id, cb) {
         .catch(function (error) {
             cb(error)
         });
-}//有个几把用啊这个接口你妈的list里不久有全部的detail了吗干嘛还要这玩意卧槽
+}
 
 export const addItem = function (data, cb) {
     axios.post(`${server}/item/add`, data)
@@ -149,21 +139,51 @@ export const deleteItem = function (id, cb) {
             cb(error)
         });
 }
+//unusedAPI//////////////////////////////////////////////////////////////////////
 //accounts
-
-export const getAccountDetail = function (params) {
-    'Account'
+export const getAccountById = function (id, cb) {
+    //但是战狼看穿一切
+    axios.get(`${server}/account/all?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+export const getAccountDetail = function (id, cb) {
+    //接口有问题
+    axios.get(`${server}/account?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
 
 export const addAccount = function (params) {
-
+//还有点问题
 }
-
-export const deleteAccount = function (params) {
-
+export const updateAccount = function (params) {
+    //还有点问题
 }
-
+export const deleteAccount = function (id, cb) {
+    //bad 
+    axios.delete(`${server}/account/delete?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
 export const chartAccount = function (params) {
-    'chart'
+//bad    'chart'
 }
-
+export const getUserNameByuserID = function (params) {
+    //bad    'chart'
+    }
+    export const getUserItemsByuserID = function (params) {
+        //bad    'chart'
+}
