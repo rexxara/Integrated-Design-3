@@ -11,6 +11,7 @@ import Bill from './pages/Bill';
 import AccountEntries from './pages/AccountEntries';
 import PersonalCenter from './pages/PersonalCenter';
 import Login from './pages/Login';
+import AdminEdit from './pages/AdminEdit';
 
 class App extends Component {
 
@@ -46,6 +47,7 @@ class App extends Component {
             <Route path="/main/账户条目" component={AccountEntries} />
             <Route path="/main/个人中心" component={PersonalCenter} />
             <Route path="/main/Admin用户管理" component={Admin} />
+            <Route path={`/main/admin/Edit/:id`} component={AdminEdit} />
             
           </div>
           </header>

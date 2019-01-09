@@ -69,6 +69,45 @@ export const adminUserAll = function (page, cb) {
             cb(error)
         });
 }
+
+
+export const adminUserDelete = function (id,cb) {
+    axios.delete(`${server}/admin/user/delete?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+
+export const adminUserAdd = function (data, cb) {
+    axios.post(`${server}/admin/user/add`, data)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+export const adminUser = function (id,cb) {
+    axios.get(`${server}/admin/user?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
+export const adminUpdate  = function (data, cb) {
+    axios.post(`${server}/admin/user/update`, data)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
+}
 //unusedAPI//////////////////////////////////////////////////////////////////////
 //根据itemID查找item详情
 export const getItemDetail = function (id, cb) {
@@ -80,7 +119,6 @@ export const getItemDetail = function (id, cb) {
             cb(error)
         });
 }
-
 
 
 //占坑
@@ -113,19 +151,4 @@ export const deleteAccount = function (params) {
 export const chartAccount = function (params) {
     'chart'
 }
-//冷锋接口
 
-
-export const adminUserAdd = function (params) {
-
-}
-
-export const adminUserDelete = function (params) {
-
-}
-export const adminUser = function (params) {
-
-}
-export const adminUpdate = function (params) {
-
-}
