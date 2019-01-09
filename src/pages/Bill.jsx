@@ -51,7 +51,9 @@ class Home extends React.Component {
         const {id}=this.props.loginState
         getAccountById(id, (data) => {
             let res=data.data
-            this.setState({rows:res.data||[]})
+            console.log(res.data)
+            const items = res.data.filter(el => el.userId === id)
+            this.setState({rows:items||[]})
         })
     }
     handleClose = () => {
@@ -76,7 +78,6 @@ class Home extends React.Component {
     render() {
         const {rows,currentDelete}=this.state
         const { classes } = this.props;
-        console.log(rows)
         return (
             <div>
             <div>账单</div>
@@ -110,7 +111,7 @@ class Home extends React.Component {
                                         {/* <TableCell align="right">{row.itemId}</TableCell>
                                         <TableCell align="right">{row.userId}</TableCell> */}
                                         <TableCell align="right">
-                                            <Link to={`/main/account/Edit/${row.id}`}><Button color="primary">编辑</Button></Link>
+                                            {/* <Link to={`/main/account/Edit/${row.id}`}><Button color="primary">编辑</Button></Link> */}
                                             <Button color="secondary" onClick={() => { this.handleClickOpen(row) }} >删除</Button>
                                         </TableCell>
                                     </TableRow>
@@ -125,7 +126,7 @@ class Home extends React.Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{`确定要删除用户${currentDelete.nickName}吗？`}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{`确定要删除这条记录吗？`}</DialogTitle>
                     <DialogActions>
                         <Button onClick={this.handleClose} variant="contained" color="primary">
                             取消

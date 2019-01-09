@@ -139,10 +139,9 @@ export const deleteItem = function (id, cb) {
             cb(error)
         });
 }
-//unusedAPI//////////////////////////////////////////////////////////////////////
 //accounts
 export const getAccountById = function (id, cb) {
-    //但是战狼看穿一切
+    //但是战狼看穿一切因为他查询写的有问题
     axios.get(`${server}/account/all?id=${id}`)
         .then(function (response) {
             cb(response)
@@ -162,14 +161,19 @@ export const getAccountDetail = function (id, cb) {
         });
 }
 
-export const addAccount = function (params) {
-//还有点问题
+export const addAccount = function (data, cb) {
+    axios.post(`${server}/account/add`, data)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
 export const updateAccount = function (params) {
-    //还有点问题
+    //以后再做
 }
 export const deleteAccount = function (id, cb) {
-    //bad 
     axios.delete(`${server}/account/delete?id=${id}`)
         .then(function (response) {
             cb(response)
@@ -181,9 +185,21 @@ export const deleteAccount = function (id, cb) {
 export const chartAccount = function (params) {
 //bad    'chart'
 }
-export const getUserNameByuserID = function (params) {
-    //bad    'chart'
-    }
-    export const getUserItemsByuserID = function (params) {
-        //bad    'chart'
+export const getUserNameByuserID = function (id, cb) {
+    axios.get(`${server}/user/info?id=${id}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            cb(error)
+        });
 }
+    export const getUserItemsByuserID =function (id, cb) {
+        axios.get(`${server}/user/items?id=${id}`)
+            .then(function (response) {
+                cb(response)
+            })
+            .catch(function (error) {
+                cb(error)
+            });
+    }

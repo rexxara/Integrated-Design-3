@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import { getItemDetail,addItem,updateItem } from '../api'
+import { getItemDetail, addAccount, getUserItemsByuserID } from '../api'
 import { notification } from 'antd';
 
 const styles = theme => ({
@@ -39,29 +39,43 @@ class AccountEdit extends React.Component {
 
     state = {
         money: 200,
-        description:'无'
+        description: '无',
+        items: [],
+        itemID: ''
     };
     componentDidMount() {
+        let loginState = localStorage.getItem('loginState')
+        try {
+            loginState = JSON.parse(loginState)
+        } catch (error) {
+
+        }
+
+        getUserItemsByuserID(loginState.id, (res) => {
+            const { data } = res
+            const items = data.data.filter(el => el.owner === loginState.id)
+            this.setState({ userId: loginState.id, items: items, itemID: items[0].id })
+        })
         const { match: { params } } = this.props
         if (params.id !== 'new') {
             getItemDetail(params.id, (res) => {
                 console.log(res)
-                const { data: { code,data,msg } } = res
+                const { data: { code, data, msg } } = res
                 console.log(data)
-                if(code===67673){
+                if (code === 67673) {
                     notification.error({
                         message: '不能操作',
                         description: msg,
                     });
                     this.props.history.goBack()
-                }else{
-                this.setState({
-                    id: data.id,
-                    name: data.name,
-                    owner: data.owner,
-                    type: data.type,
-                    description:data.description||'无'
-                })
+                } else {
+                    this.setState({
+                        id: data.id,
+                        name: data.name,
+                        owner: data.owner,
+                        type: data.type,
+                        description: data.description || '无'
+                    })
                 }
             })
         } else {
@@ -77,7 +91,27 @@ class AccountEdit extends React.Component {
         this.props.history.goBack()
     }
     createUser = () => {
-        console.log(this.state)
+        const { money, description, itemID, userId } = this.state
+        const date = new Date()
+        const form = {
+            date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+            money: money,
+            description: description,
+            itemId: itemID,
+            userId: userId
+        }
+        console.log(form)
+        addAccount(form, (res) => {
+            const { data } = res
+            if (data.code === 0) {
+                notification.success({
+                    message: '操作成功',
+                    description: data.msg,
+                });
+                this.props.history.goBack()
+            }
+        })
+        //addAccount
         // const { name, owner, type, description } = this.state
         // const { match: { params: { id } } } = this.props
         // if (id === 'new') {
@@ -105,21 +139,23 @@ class AccountEdit extends React.Component {
         //         description: description,
         //         id: id
         //     }
-        //     updateItem(data, (res) => {
-        //         const { data } = res
-        //         if (data.code === 0) {
-        //             notification.success({
-        //                 message: '操作成功',
-        //                 description: data.msg,
-        //             });
-        //             this.props.history.goBack()
-        //         }
-        //     })
+            // updateItem(data, (res) => {
+            //     const { data } = res
+            //     if (data.code === 0) {
+            //         notification.success({
+            //             message: '操作成功',
+            //             description: data.msg,
+            //         });
+            //         this.props.history.goBack()
+            //     }
+            // })
         // }
     }
     render() {
         const { classes } = this.props;
         const { match: { params: { id } } } = this.props
+        const { items,itemID } = this.state
+        console.log(itemID)
         return (
             <div>
                 <br />
@@ -148,6 +184,29 @@ class AccountEdit extends React.Component {
                                 margin="normal"
                                 variant="outlined"
                             />
+
+                            <TextField
+                                required
+                                id="itemID"
+                                select
+                                label="账户条目"
+                                className={classes.textField}
+                                value={this.state.itemID}
+                                onChange={this.handleChange('itemID')}
+                                SelectProps={{
+                                    MenuProps: {
+                                        className: classes.menu,
+                                    },
+                                }}
+                                helperText="配置权限"
+                                margin="normal"
+                            >
+                                {items.map(option => (
+                                    <MenuItem key={option.id} value={option.id}>
+                                        &nbsp;&nbsp;{option.name}&nbsp;&nbsp;
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </ListItem>
                         <Button variant="contained" onClick={this.handleClose} color="primary">
                             取消

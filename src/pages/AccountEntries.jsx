@@ -1,6 +1,6 @@
 import React from 'react';
 import { getItemBypage,deleteItem } from '../api'
-
+import Owner from '../components/ownerName'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -118,7 +118,7 @@ class AccountEntries extends React.Component {
                                     <TableRow key={row.id}>
                                         <TableCell align="right">{row.id}</TableCell>
                                         <TableCell align="right">{row.type==='1'?'支出':'收入'}</TableCell>
-                                        <TableCell align="right">{row.owner}</TableCell>
+                                        <TableCell align="right"><Owner owner={row.owner}/></TableCell>
                                         <TableCell align="right">{row.name}</TableCell>
                                         <TableCell align="right">{row.description}</TableCell>
                                         <TableCell align="right">
