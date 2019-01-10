@@ -182,8 +182,16 @@ export const deleteAccount = function (id, cb) {
             cb(error)
         });
 }
-export const chartAccount = function (params) {
-//bad    'chart'
+export const chartAccount =function (data, cb) {
+    const {from,to}=data
+    axios.get(`${server}/account/chart?from=${from}&to=${to}`)
+        .then(function (response) {
+            cb(response)
+        })
+        .catch(function (error) {
+            // console.log('err')
+            // cb(error)
+        });
 }
 export const getUserNameByuserID = function (id, cb) {
     axios.get(`${server}/user/info?id=${id}`)
